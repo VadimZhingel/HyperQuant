@@ -5,6 +5,10 @@ VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyperQuant.Domain", "src\HyperQuant.Domain\HyperQuant.Domain.csproj", "{0A2B7FA3-003D-415D-9E78-1FACDC09BA0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperQuant.Application", "src\HyperQuant.Application\HyperQuant.Application.csproj", "{74CAA0AC-D3E7-47C8-BF23-96016E557162}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperQuant.Application.IntegrationTests", "src\HyperQuant.Application.IntegrationTests\HyperQuant.Application.IntegrationTests.csproj", "{AEC150F3-F157-4C82-A412-9BC9C154F802}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{0A2B7FA3-003D-415D-9E78-1FACDC09BA0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A2B7FA3-003D-415D-9E78-1FACDC09BA0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A2B7FA3-003D-415D-9E78-1FACDC09BA0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74CAA0AC-D3E7-47C8-BF23-96016E557162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74CAA0AC-D3E7-47C8-BF23-96016E557162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74CAA0AC-D3E7-47C8-BF23-96016E557162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74CAA0AC-D3E7-47C8-BF23-96016E557162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEC150F3-F157-4C82-A412-9BC9C154F802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEC150F3-F157-4C82-A412-9BC9C154F802}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEC150F3-F157-4C82-A412-9BC9C154F802}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEC150F3-F157-4C82-A412-9BC9C154F802}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿namespace HyperQuant.Domain.Model
+﻿ namespace HyperQuant.Domain.Model
 {
     public class Candle
     {

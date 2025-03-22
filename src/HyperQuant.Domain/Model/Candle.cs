@@ -1,4 +1,4 @@
-﻿ namespace HyperQuant.Domain.Model
+﻿namespace HyperQuant.Domain.Model
 {
     public class Candle
     {
@@ -30,16 +30,29 @@
         /// <summary>
         /// Partial (Общая сумма сделок)
         /// </summary>
-        public decimal TotalPrice { get; set; }
+        public decimal TotalPrice { get; private set; }
 
         /// <summary>
         /// Partial (Общий объем)
         /// </summary>
-        public decimal TotalVolume { get; set; }
+        public decimal TotalVolume { get; private set; }
 
         /// <summary>
         /// Время
         /// </summary>
         public DateTimeOffset OpenTime { get; set; }
+
+        public void CalculateTotals(IEnumerable<Trade> trades)
+        {
+            if (trades == null)
+            {
+                throw new ArgumentNullException(nameof(trades));
+            }
+
+            var relevantTrades = trades.Where(t => t.Pair == Pair && t.Time < OpenTime);
+
+            TotalPrice = relevantTrades.Sum(t => t.Price * t.Amount);
+            TotalVolume = relevantTrades.Sum(t => t.Amount);
+        }
     }
 }

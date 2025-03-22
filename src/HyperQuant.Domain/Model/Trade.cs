@@ -1,5 +1,8 @@
 ﻿namespace HyperQuant.Domain.Model
 {
+    /// <summary>
+    /// Сделка
+    /// </summary>
     public class Trade
     {
         /// <summary>

@@ -43,5 +43,21 @@ namespace HyperQuant.Application.IntegrationTests
             Assert.NotNull(result);
             Assert.True(!result.Any());
         }
+
+        [Theory]
+        [InlineData("tBTCUSD", 1)]
+        public async Task GetCandleSeriesAsync_ReturnsCandles_WhenCalledWithValidPair(string pair, int periodInSec)
+        {
+            // Arrange
+            long count = 10;
+            var dateTime = new DateTime(2025, 1, 1);
+
+            // Act
+            var result = await _testConnector.GetCandleSeriesAsync(pair, periodInSec, new DateTimeOffset(dateTime), DateTimeOffset.Now, count, CancellationToken.None);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result.Any(), "Не был получен ни один график цен.");
+        }
     }
 }

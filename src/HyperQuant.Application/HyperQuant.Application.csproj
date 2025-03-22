@@ -10,4 +10,8 @@
     <ProjectReference Include="..\HyperQuant.Domain\HyperQuant.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="RestSharp" Version="112.1.0" />
+  </ItemGroup>
+
 </Project>

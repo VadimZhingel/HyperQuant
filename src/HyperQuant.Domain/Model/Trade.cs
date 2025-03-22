@@ -25,11 +25,16 @@
         /// <summary>
         /// Направление (buy/sell)
         /// </summary>
-        public string Side { get; set; } = null!;
+        public string Side => Amount > 0 ? "buy" : "sell";
 
         /// <summary>
         /// Время трейда
         /// </summary>
         public DateTimeOffset Time { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}; Time: {Time}; Amount: {Amount}; Price: {Price}; Pair: {Pair}; Side: {Side}";
+        }
     }
 }

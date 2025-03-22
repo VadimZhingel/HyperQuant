@@ -6,7 +6,7 @@ namespace HyperQuant.Domain.Contracts
     {
         #region Rest
 
-        Task<IEnumerable<Trade>> GetNewTradesAsync(string pair, int maxCount);
+        Task<IEnumerable<Trade>> GetNewTradesAsync(string pair, int maxCount, CancellationToken stoppingToken = default);
 
         Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to = null, long? count = 0);
 

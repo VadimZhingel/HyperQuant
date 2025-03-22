@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HyperQuant.Application\HyperQuant.Application.csproj" />
+    <ProjectReference Include="..\HyperQuant.Domain\HyperQuant.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperQuant.Application", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperQuant.Application.IntegrationTests", "src\HyperQuant.Application.IntegrationTests\HyperQuant.Application.IntegrationTests.csproj", "{AEC150F3-F157-4C82-A412-9BC9C154F802}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperQuant.WPF", "src\HyperQuant.WPF\HyperQuant.WPF.csproj", "{C49C4532-C95D-448A-8392-C6013D08BADE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{AEC150F3-F157-4C82-A412-9BC9C154F802}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC150F3-F157-4C82-A412-9BC9C154F802}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC150F3-F157-4C82-A412-9BC9C154F802}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C49C4532-C95D-448A-8392-C6013D08BADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C49C4532-C95D-448A-8392-C6013D08BADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C49C4532-C95D-448A-8392-C6013D08BADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C49C4532-C95D-448A-8392-C6013D08BADE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

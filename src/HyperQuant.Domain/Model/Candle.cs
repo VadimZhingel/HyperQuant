@@ -54,5 +54,11 @@
             TotalPrice = relevantTrades.Sum(t => t.Price * t.Amount);
             TotalVolume = relevantTrades.Sum(t => t.Amount);
         }
+
+        public override string ToString()
+        {
+            return $"Pair: {Pair}; OpenPrice: {OpenPrice}; HighPrice: {HighPrice}; LowPrice: {LowPrice}; ClosePrice: {ClosePrice}; " +
+                $"TotalPrice: {TotalPrice}; TotalVolume: {TotalVolume}; OpenTime: {OpenTime}";
+        }
     }
 }

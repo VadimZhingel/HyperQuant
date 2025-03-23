@@ -11,6 +11,8 @@ namespace HyperQuant.Application.IntegrationTests
             _testConnector = new TestConnector();
         }
 
+        #region Rest
+
         [Theory]
         [InlineData("tBTCUSD")]
         [InlineData("tETHUSD")]
@@ -45,19 +47,127 @@ namespace HyperQuant.Application.IntegrationTests
         }
 
         [Theory]
-        [InlineData("tBTCUSD", 1)]
-        public async Task GetCandleSeriesAsync_ReturnsCandles_WhenCalledWithValidPair(string pair, int periodInSec)
+        [InlineData("tBTCUSD", 60)]
+        public async Task GetCandleSeriesAsync_ReturnsCandles_WhenCalledWithValidParams(string pair, int periodInSec)
         {
-            // Arrange
-            long count = 10;
-            var dateTime = new DateTime(2025, 1, 1);
-
             // Act
-            var result = await _testConnector.GetCandleSeriesAsync(pair, periodInSec, new DateTimeOffset(dateTime), DateTimeOffset.Now, count, CancellationToken.None);
+            var result = await _testConnector.GetCandleSeriesAsync(pair, periodInSec, stoppingToken: CancellationToken.None);
 
             // Assert
             Assert.NotNull(result);
             Assert.True(result.Any(), "Не был получен ни один график цен.");
         }
+
+        [Theory]
+        [InlineData("tBTCUSD", 3600)]
+        public async Task GetCandleSeriesAsync_ReturnsCandles_WhenCalledWithValidAggregateParams(string pair, int periodInSec)
+        {
+            // Arrange
+            int count = 30;
+            DateTimeOffset currentTime = DateTimeOffset.UtcNow; // Текущее время
+            DateTimeOffset from = currentTime.AddHours(-2); // 2 часа назад
+            DateTimeOffset to = currentTime.AddHours(-30); // 30 часов назад
+
+            // Act
+            var result = await _testConnector.GetCandleSeriesAsync(pair, periodInSec, from, to, count, CancellationToken.None);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result.Any(), "Не был получен ни один график цен.");
+        }
+
+        #endregion
+
+        #region Socket
+
+        [Theory]
+        [InlineData("tBTCUSD", 20)]
+        [InlineData("tBTCUSD", 10)]
+        [InlineData("tBTCUSD", 40)]
+        public void SubscribeTrades_ReturnsTrades_WhenCalledWithValidParam(string pair, int maxCount)
+        {
+            // Arrange
+            int tradesCount = 0;
+
+            _testConnector.NewBuyTrade += trade =>
+            {
+                tradesCount++;
+            };
+
+            _testConnector.NewSellTrade += trade =>
+            {
+                tradesCount++;
+            };
+
+            // Act
+            _testConnector.SubscribeTrades(pair, maxCount, CancellationToken.None);
+            _testConnector.UnsubscribeTrades(pair);
+
+            // Assert
+            Assert.True(tradesCount == maxCount, "Получено неверное количество сделок.");
+        }
+
+        [Fact]
+        public async Task SubscribeTrades_ShouldThrowInvalidOperationException_WhenAlreadySubscribed()
+        {
+            // Arrange
+            string pair = "tBTCUSD";
+
+            // Act
+            _ = Task.Run(() => { _testConnector.SubscribeTrades(pair); });
+            await Task.Delay(1000);
+
+            // Act & Assert
+            var exception = Assert.Throws<InvalidOperationException>(() => _testConnector.SubscribeTrades(pair));
+            Assert.Equal("Соединение все еще активно, для установления нового сначало вызовете метод UnsubscribeTrades.", exception.Message);
+        }
+
+        [Theory]
+        [InlineData("tBTCUSD", 60)]
+        public void SubscribeCandles_ReturnsCandles_WhenCalledWithValidParams(string pair, int periodInSec)
+        {
+            // Arrange
+            int candlesCount = 0;
+
+            _testConnector.CandleSeriesProcessing += candle =>
+            {
+                candlesCount++;
+            };
+
+            // Act
+            Task.Delay(2000).ContinueWith(t => _testConnector.UnsubscribeCandles(pair));
+
+            _testConnector.SubscribeCandles(pair, periodInSec);
+            // Assert
+            Assert.True(candlesCount > 0, "Получено неверное количество графиков цен.");
+        }
+
+        [Theory]
+        [InlineData("fUSD", 3600)]
+        public void SubscribeCandles_ReturnsCandles_WhenCalledWithValidAggregateParams(string pair, int periodInSec)
+        {
+            // Arrange
+            int candlesCount = 0;
+            int count = 30;
+            DateTimeOffset currentTime = DateTimeOffset.UtcNow; // Текущее время
+            DateTimeOffset from = currentTime.AddHours(-2); // 2 часа назад
+            DateTimeOffset to = currentTime.AddHours(-30); // 30 часов назад
+            var cts = new CancellationTokenSource();
+
+            _testConnector.CandleSeriesProcessing += candle =>
+            {
+                candlesCount++;
+            };
+
+            // Act
+            Task.Delay(2000).ContinueWith(t => cts.Cancel());
+
+            _testConnector.SubscribeCandles(pair, periodInSec, from, to, count, cts.Token);
+            _testConnector.UnsubscribeCandles(pair);
+            // Assert
+            Assert.True(candlesCount > 0, "Получено неверное количество графиков цен.");
+        }
+
+        #endregion
     }
 }

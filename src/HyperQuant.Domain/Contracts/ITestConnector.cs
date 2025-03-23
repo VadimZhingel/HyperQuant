@@ -8,7 +8,7 @@ namespace HyperQuant.Domain.Contracts
 
         Task<IEnumerable<Trade>> GetNewTradesAsync(string pair, int maxCount, CancellationToken stoppingToken = default);
 
-        Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to = null, long? count = 0, CancellationToken stoppingToken = default);
+        Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from = null, DateTimeOffset? to = null, long? count = 0, CancellationToken stoppingToken = default);
 
         #endregion
 
@@ -18,13 +18,13 @@ namespace HyperQuant.Domain.Contracts
 
         event Action<Trade> NewSellTrade;
 
-        void SubscribeTrades(string pair, int maxCount = 100);
+        void SubscribeTrades(string pair, int maxCount = 100, CancellationToken stoppingToken = default);
 
         void UnsubscribeTrades(string pair);
 
         event Action<Candle> CandleSeriesProcessing;
 
-        void SubscribeCandles(string pair, int periodInSec, DateTimeOffset? from = null, DateTimeOffset? to = null, long? count = 0);
+        void SubscribeCandles(string pair, int periodInSec, DateTimeOffset? from = null, DateTimeOffset? to = null, long? count = 0, CancellationToken stoppingToken = default);
 
         void UnsubscribeCandles(string pair);
 

@@ -4,9 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HyperQuant.WPF"
+        xmlns:vm="clr-namespace:HyperQuant.WPF.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        d:DataContext="{d:DesignInstance vm:MainViewModel}"
+        Title="HyperQuant" Height="450" Width="800">
+    
+    <Grid Margin="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <Grid Margin="0 4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding Pair}"/>
+            <TextBox Grid.Column="1" Text="{Binding Count}" Margin="4 0"/>
+            <Button Grid.Column="2" Content="GetNewTrades" Command="{Binding GetNewTradesCommand}"/>
+            <TextBox Grid.Column="3" Text="{Binding PeriodInSec}" Margin="4 0"/>
+            <Button Grid.Column="4" Content="GetCandleSeries" Command="{Binding GetCandleSeriesCommand}"/>
+        </Grid>
+
+        <DataGrid ItemsSource="{Binding Trades}" Grid.Row="1" IsReadOnly="True"/>
+        <DataGrid ItemsSource="{Binding Candles}" Grid.Row="2" IsReadOnly="True"/>
     </Grid>
+
 </Window>

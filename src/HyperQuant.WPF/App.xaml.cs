@@ -9,7 +9,7 @@ namespace HyperQuant.WPF
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
         private readonly IHost _host;
 
@@ -46,7 +46,10 @@ namespace HyperQuant.WPF
         private static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.RegisterViews()
-                .RegisterViewModels();
+                .RegisterViewModels()
+                .RegisterServices()
+                .AddSingleton<CancellationTokenSource>()
+                ;
         }
     }
 }

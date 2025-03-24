@@ -1,4 +1,5 @@
-﻿using HyperQuant.Domain.Contracts;
+﻿using HyperQuant.Application;
+using HyperQuant.Domain.Contracts;
 using HyperQuant.Domain.Model;
 using HyperQuant.WPF.Common.Commands;
 using HyperQuant.WPF.ViewModel.Base;
@@ -7,9 +8,10 @@ using System.Windows.Input;
 
 namespace HyperQuant.WPF.ViewModel
 {
-    internal class MainViewModel(ITestConnector testConnector, CancellationTokenSource cancellationTokenSource) : ViewModelBase
+    internal class MainViewModel(ITestConnector testConnector, CryptoBalanceCalculator cryptoBalanceCalculator, CancellationTokenSource cancellationTokenSource) : ViewModelBase
     {
         private readonly ITestConnector _testConnector = testConnector;
+        private readonly CryptoBalanceCalculator _cryptoBalanceCalculator = cryptoBalanceCalculator;
         private readonly CancellationTokenSource _cancellationTokenSource = cancellationTokenSource;
 
         private string _pair = "tBTCUSD";
@@ -43,6 +45,10 @@ namespace HyperQuant.WPF.ViewModel
         private ObservableCollection<Candle> _candles = [];
 
         public ReadOnlyObservableCollection<Candle> Candles => new(_candles);
+
+        private ObservableCollection<CryptoBalance> _balances = [];
+
+        public ReadOnlyObservableCollection<CryptoBalance> Balances => new(_balances);
 
         #region GetNewTradesCommand
 
@@ -84,11 +90,34 @@ namespace HyperQuant.WPF.ViewModel
             _candles.Clear();
             foreach (var candle in candles)
             {
+                candle.CalculateTotals(Trades);
                 _candles.Add(candle);
             }
         }
 
         private bool GetCandleSeriesExecutedCanExecute() => !string.IsNullOrEmpty(Pair);
+
+        #endregion
+
+        #region GetPortfolioBalancesCommand
+
+        private LambdaCommand? _getCryptoBalanceCommand;
+
+        public ICommand GetCryptoBalanceCommand => _getCryptoBalanceCommand ??= new LambdaCommand(async () =>
+        {
+            await CalculateCryptoBalanceExecutedAsync();
+        });
+
+        private async Task CalculateCryptoBalanceExecutedAsync()
+        {
+            var balances = await _cryptoBalanceCalculator.GetPortfolioBalancesAsync();
+            _balances.Clear();
+
+            foreach (var balance in balances)
+            {
+                _balances.Add(balance);
+            }
+        }
 
         #endregion
     }

@@ -8,7 +8,10 @@ namespace HyperQuant.WPF.Register
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-            services.AddSingleton<ITestConnector, TestConnector>();
+            services.AddSingleton<ITestConnector, TestConnector>()
+                .AddSingleton<CryptoBalanceCalculator>()
+                ;
+
             return services;
         }
     }

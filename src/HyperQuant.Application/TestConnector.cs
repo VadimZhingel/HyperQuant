@@ -201,7 +201,7 @@ namespace HyperQuant.Application
                         {
                             @event = "unsubscribe",
                             channel = "trades",
-                            symbol = pair
+                            symbol = pair // use chanId 
                         };
 
                         SendMessageAsync(webSocket, JsonSerializer.Serialize(message)).GetAwaiter().GetResult();
@@ -260,7 +260,7 @@ namespace HyperQuant.Application
                         {
                             @event = "unsubscribe",
                             channel = "candles",
-                            symbol = pair
+                            symbol = pair // use chanId 
                         };
 
                         SendMessageAsync(webSocket, JsonSerializer.Serialize(message)).GetAwaiter().GetResult();
@@ -342,7 +342,7 @@ namespace HyperQuant.Application
             }
         }
 
-        private string GetCandleFilter(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to = null, long? count = 0)
+        private static string GetCandleFilter(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to = null, long? count = 0)
         {
             var stringBuilder = new StringBuilder($"trade:{GetTimeFrame(periodInSec)}:{pair}");
 

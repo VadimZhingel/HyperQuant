@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:HyperQuant.WPF.ViewModel"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainViewModel}"
-        Title="HyperQuant" Height="500" Width="900">
+        Title="HyperQuant" Height="500" Width="920">
     
     <Grid Margin="4">
         <Grid.RowDefinitions>
@@ -35,7 +35,7 @@
         </Grid>
 
         <DataGrid ItemsSource="{Binding Trades}" Grid.Row="1" IsReadOnly="True"/>
-        <DataGrid ItemsSource="{Binding Candles}" Grid.Row="2" IsReadOnly="True"/>
+        <DataGrid ItemsSource="{Binding Candles}" Grid.Row="2" IsReadOnly="True" Margin="0 4"/>
         <DataGrid ItemsSource="{Binding Balances}" Grid.Row="3" IsReadOnly="True"/>
     </Grid>
 
